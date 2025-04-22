@@ -1,0 +1,16 @@
+{% extends "eventsApp/layout.html" %}
+
+{% block title %}
+    Employee Form
+{% endblock %}
+
+{% block content %}
+    <p class="lead">Create event</p>
+    <div class="card rounded p-2">
+        <form class="row m-2" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ event_form.as_p }}
+            <button class="btn btn-primary btn-block my-2" type="submit">Save and continue</button>
+        </form>
+    </div>
+{% endblock %}

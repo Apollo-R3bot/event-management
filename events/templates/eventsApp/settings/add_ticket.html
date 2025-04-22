@@ -1,0 +1,17 @@
+{% extends "eventsApp/settings/layout.html" %}
+
+{% block title %}
+    Settings | Templates
+{% endblock %}
+
+{% block settings %}
+    <div class="row p-2">
+        <p class="col lead">Add / update ticket</p>
+        <hr>
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            {{ticket_form}}
+            <button type="submit" class="btn btn-primary my-2">Save</button>
+        </form>
+    </div>
+{% endblock %}

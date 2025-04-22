@@ -1,0 +1,27 @@
+{% extends "eventsApp/layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3 border p-0 " style="height: 100vh;">
+          <p class="lead bg-primary m-0 p-2 text-white fw-bold">Settings</p>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'events_list' %}">Events</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'category_list' %}">Category</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'ticket_list' %}">Ticket</a>
+                </li>
+              </ul>
+        </div>
+        <div class="col-md-9 p-3">
+            {% block settings %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
