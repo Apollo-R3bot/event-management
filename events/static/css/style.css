@@ -192,11 +192,11 @@ main p{
     margin: 5px 0px;
 }
 
-main img.profile{
+main img.poster{
     width: 100px;
     height: 100px;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 12px;
     border: 1px solid var(--divider);
 }
 main a,

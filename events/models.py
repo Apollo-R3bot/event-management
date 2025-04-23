@@ -23,10 +23,12 @@ class Events(models.Model):
     location = models.CharField(max_length=100)
     category = models.ForeignKey(EventCategory, on_delete=models.SET_NULL, null=True, blank=True)
     desc = models.CharField(max_length=255, null=True, blank=True)
+    poster = models.ImageField(null=True, blank=True, upload_to="posters/")
+    is_published = models.BooleanField(default=False)
     class Status(models.TextChoices):
         ACTIVE = "active"
         EXPIRED = "expired"
-    status = models.CharField(max_length=8, choices=Status)
+    status = models.CharField(max_length=8, choices=Status, default="active")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -47,7 +49,7 @@ class Ticket(models.Model):
     type = models.ForeignKey(TicketType, on_delete=models.SET_NULL, null=True, blank=True)
     event = models.ForeignKey(Events, on_delete=models.CASCADE)
     price = models.FloatField(default=0.0)
-    ticket_qty = models.IntegerField()
+    ticket_qty = models.IntegerField(default=1)
     desc = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

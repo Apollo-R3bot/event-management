@@ -1,6 +1,7 @@
+import pdb;
 from django.shortcuts import redirect, render
-from .models import EventCategory, Events, TicketType
-from .forms import CategoryForm, EventForm, ScheduleForm, TicketTypeForm
+from .models import EventCategory, Events, Schedule, TicketType
+from .forms import CategoryForm, EventForm, ScheduleForm, TicketForm, TicketTypeForm
 
 # Home Page
 def home_view(request):
@@ -31,24 +32,37 @@ def create_ticket(request):
     return render(request, 'eventsApp/settings/add_ticket.html', {'ticket_form':form})
 
 def ticket_list(request):
-    ticket = TicketType.objects.all()
+    ticket = TicketType.objects.all() 
     return render(request, 'eventsApp/settings/ticket_list.html', {'ticket':ticket})
 
 def events_list(request):
     events = Events.objects.all()
+
+    pdb.set_trace()
     return render(request, 'eventsApp/event_list.html', {'events':events})
 
 def create_event(request):
-    form = EventForm()
+    event_form = EventForm()
+    schedule_form = ScheduleForm()
+    ticket_form = TicketForm()
     if request.method == 'POST':
-        form = EventForm(request.POST)
-        if form.is_valid():
-            form.save()
-            event_id = (Events.objects.last()).id
-            return redirect('schedule', event_id)
-    return render(request, 'eventsApp/event_form.html', {'event_form':form})
+        event_form = EventForm(request.POST, request.FILES)
+        schedule_form = ScheduleForm(request.POST)
+        ticket_form = TicketForm(request.POST)
+        if event_form.is_valid() and schedule_form.is_valid() and ticket_form.is_valid():
+            event = event_form.save()
+            schedule = schedule_form.save(commit=False)
+            schedule.event = event
+            schedule.save()
 
-def event_schedule(request, event_id):
+            ticket = ticket_form.save(commit=False)
+            ticket.event = event
+            ticket.save()
+            # event_id = (Events.objects.last()).id
+            return redirect('events_list')
+    return render(request, 'eventsApp/event_form.html', {'event_form':event_form, 'schedule_form':schedule_form, 'ticket_form':ticket_form})
+
+def create_schedule(request, event_id):
     event = Events.objects.get(id=event_id)
     form = ScheduleForm()
     if request.method == 'POST':
@@ -56,4 +70,4 @@ def event_schedule(request, event_id):
         if form.is_valid():
             form.save()
             return redirect('schedule', event_id)
-    return render(request, 'eventsApp/schedule.html', {'schedule':form})
+    return render(request, 'eventsApp/event_form.html', {'schedule_form':form})
