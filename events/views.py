@@ -1,11 +1,12 @@
 import pdb;
 from django.shortcuts import redirect, render
-from .models import EventCategory, Events, Schedule, TicketType
+from .models import EventCategory, Events, Schedule, Ticket, TicketType
 from .forms import CategoryForm, EventForm, ScheduleForm, TicketForm, TicketTypeForm
 
 # Home Page
 def home_view(request):
-    return render(request, 'eventsApp/home.html')
+    events = Events.objects.all()
+    return render(request, 'eventsApp/home.html', {'events':events})
 
 #Category
 def create_category(request):
@@ -36,9 +37,10 @@ def ticket_list(request):
     return render(request, 'eventsApp/settings/ticket_list.html', {'ticket':ticket})
 
 def events_list(request):
-    events = Events.objects.all()
-
-    pdb.set_trace()
+    events = Schedule.objects.all().select_related('event')
+    # for e in events:
+    #     schedule = Schedule.objects.filter(event_id=e)
+    # pdb.set_trace()
     return render(request, 'eventsApp/event_list.html', {'events':events})
 
 def create_event(request):
@@ -62,12 +64,8 @@ def create_event(request):
             return redirect('events_list')
     return render(request, 'eventsApp/event_form.html', {'event_form':event_form, 'schedule_form':schedule_form, 'ticket_form':ticket_form})
 
-def create_schedule(request, event_id):
+def event_details(request, event_id):
     event = Events.objects.get(id=event_id)
-    form = ScheduleForm()
-    if request.method == 'POST':
-        form = ScheduleForm(request.POST, instance=event_id)
-        if form.is_valid():
-            form.save()
-            return redirect('schedule', event_id)
-    return render(request, 'eventsApp/event_form.html', {'schedule_form':form})
+    schedule = Schedule.objects.get(event=event_id)
+    ticket = Ticket.objects.get(event=event_id)
+    return render(request, 'eventsApp/event_details.html', {'event':event, 'schedule':schedule, 'ticket':ticket})

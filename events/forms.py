@@ -71,7 +71,7 @@ class TicketForm(forms.ModelForm):
         fields = ('type','price','ticket_qty','desc')
         labels = {
             'type':'Ticket',
-            'price':'Price',
+            'price':'Price (TZS)',
             'ticket_qty':'Ticket quantity',
             'desc':'Description',
         }

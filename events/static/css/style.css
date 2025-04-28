@@ -96,24 +96,27 @@ nav ul .nav-item ul a:hover{
 h2, h3, h4, p.lead{
     color: var(--primary);
 }
-main .template {
-    height: 70px;
-    width: 120px;
-}
-main .template-big {
-    height: 300px;
-    width: 100%;
-}
-main .template img,
-main .template-big img{
-    object-fit: cover;
-    max-height: 100%;
-    max-width: 100%;
-}
+
 main{
     margin-top: 5em;
     padding: 0;
-    border-radius: 1.5em;
+    /* border-radius: 1.5em; */
+}
+main .card .schedule{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--gray);
+    border-radius: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+main .card .schedule .date{
+    width: 100%;
+    font-size: 20px;
 }
 main .banner {
     background: #efefef;
@@ -161,7 +164,11 @@ main .line .left, .line .right{
     border-radius: 5px;
 }
 main .card{
-    border-radius: 1.3em;
+    border-top: 5px solid #2981B3;
+    border-radius: 12px;
+}
+main .card img{
+    border-radius: 12px 0px;
 }
 main .btn{
     box-shadow: none;
@@ -194,7 +201,7 @@ main p{
 
 main img.poster{
     width: 100px;
-    height: 100px;
+    height: 60px;
     object-fit: cover;
     border-radius: 12px;
     border: 1px solid var(--divider);
@@ -208,10 +215,6 @@ main p a{
 main a:hover,
 main p a:hover{
     color: var(--hover-primary);
-}
-main h3{
-    font-size: 16px;
-    font-weight: 600;
 }
 
 main .sev-row{
@@ -260,6 +263,7 @@ main .side-nav .col-md-2 .nav a:hover{
     background: var(--hover-primary);
 }
 main i{
+    font-size: 18px;
     color: var(--primary);
 }
 
@@ -449,51 +453,6 @@ main .clinic-banner .text{
     font-size: 2em;
 }
 
-/* Research */
-main .research-banner{
-    height: 550px;
-}
-main .research-banner img{
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
-main .research-image{
-    height: 320px;
-    width: 22.6%;
-    padding: 0;
-    margin: 12px;
-    position: relative;
-}
-main .research-image img{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: .5em;
-}
-main .research-image:hover{
-    transform: scaleY(1.06);
-    cursor: pointer;
-}
-main .research-image a{
-    display: none;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: auto;
-    background-image: linear-gradient(var(--primary), var(--hover-primary));
-    color: var(--white);
-    opacity: .9;
-}
-main .research-image:hover > a{
-    display: block;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: .2s;
-}
-
 /* Column Slider */
 main .column-slider{
     margin: auto;
@@ -597,46 +556,6 @@ main .book-appointment .col-sm-8{
 
 }
 
-/* Shortcut Box(Feedback and Booking) */
-main .feedback{
-    position: fixed;
-    left: 5rem;
-    bottom: 10px;
-    background: var(--primary);
-    width: 180px;
-    padding: 10px;
-    border-radius: 1.4rem;
-    display: flex;
-    align-items: center;
-}
-main .booking{
-    position: fixed;
-    bottom: 10px;
-    right: 5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 100px;
-    border: none;
-    border-radius: 50%;
-    border: 2px solid var(--primary);
-    background: var(--white);
-}
-main .booking .logo{
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: var(--primary);
-    border-radius: 50%;
-}
-main .booking .text{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    /* animation: rotateText 10s linear infinite; */
-    color: var(--hover-primary);
-}
 @keyframes rotateText{
     0%{
         transform: rotate(360deg);
@@ -665,67 +584,6 @@ main .btn-primary:hover{
 
 main label.btn-outline-primary:checked{
     background: var(--hover-primary);
-}
-
-/* life-at-hospital */
-main .life-at-hospital .col-md-4 .card{
-    height: 400px;
-    cursor: pointer;
-}
-main .life-at-hospital .col-md-4 .card img{
-    height: 300px;
-}
-main .life-at-hospital .col-md-4 .card .desc{
-    display: none;
-    width: 100%;
-}
-main .life-at-hospital .col-md-4 .card:hover > .desc{
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: var(--primary);
-    height: 400px;
-    display: block;
-    transition: background-color 0.3s ease-in 1s
-}
-main .col-md-5 img{
-    width: 100%;
-    height: 160px;
-}
-main .col-md-6 img{
-    width: 100%;
-    height: 350px;
-}
-
-/* FOOTER STYLE */
-footer .mini{
-    background: var(--primary);
-    display: flex;
-    justify-content: end;
-    padding: 10px;
-}
-footer .top{
-    margin: 0px;
-    background: var(--primary);
-}
-footer .top .row .col-md-3 .list-group li,
-footer .top .row .col-md-3 .list-group li a{
-    background: var(--primary);
-    color: var(--white);
-}
-footer .top ul li a{
-    text-decoration: none;
-    color: var(--gray-800);
-    font-size: 16px;
-}
-footer .mini{
-    background: var(--hover-primary);
-}
-footer .top .mini a{
-    color: var(--gray);
-    margin: 5px;
-    text-decoration: none;
-    font-weight: 600;
 }
 
 /* Media screen size 650 */
@@ -790,20 +648,7 @@ footer .top .mini a{
         height: 50px;
     }
     main{
-        margin: .5rem 1rem;
-    }
-    main .banner {
-        height: 745px;
-        display: flex;
-        flex-direction: column-reverse;
-    }
-    main .banner .carousel {
-        height: 250px;
-        margin-bottom: 20px;
-    }
-    main .banner .carousel form{
-        margin: 0px;
-        top: 67%;
+        margin: 1.5rem 1rem;
     }
     main .col-md-5 img, main .col-md-6 img{
         width: 100%;

@@ -5,10 +5,19 @@
 {% endblock %}
 
 {% block content %}
-    <div class="text-center my-5">
-        <h1 class="fw-bolder my-4">Online Identity Card with EMID</h1>
-        <p class="lead">Identity is not an option with EMID, it’s standard. That’s because we believe that everyone should be able to create ID online without graphics tool</p>
-
-        <button class="btn btn-primary fs-5 fw-bolder my-5 p-3">Get Started for Free</button>
+    <div class="row my-5">
+        {% for event in events %}
+            <div class="col-sm-4">
+                <div class="card border-top-0 shadow">
+                    <div class="schedule fw-bold"><span class="date">25</span>Apr</div>
+                    <img class="card-img-top" src="{{ event.poster.url }}" alt="Poster" style="border-radius: 12px 12px 0px 0px;">
+                    <div class="card-body">
+                        <h5 class="text-dark">{{ event.name|truncatewords:3 }}</h5>
+                        <p class="d-flex align-items-center"><i class='bx bx-map'></i>{{ event.location }}</p>
+                        <a href="{% url 'event' event_id=event.id %}" class="btn btn-primary">Get ticket</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

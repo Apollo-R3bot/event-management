@@ -1,0 +1,63 @@
+{% extends "eventsApp/layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+{% load humanize %}
+    <div class="container my-3 border shadow">
+        <div class="row border-bottom">
+            <div class="col-sm-5 border-top-0 p-0">
+                <img src="{{ event.poster.url }}" alt="Poster" style="width: 100%;">
+            </div>
+            <div class="col-sm-7 d-flex align-items-center">
+                <div class="card-body">
+                    <h5 class="text-dark fw-bold">{{ event.name }}</h5>
+                    <p class="d-flex align-items-center"><i class='bx bx-map'></i>{{ event.location }}</p>
+                    <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>Start:</strong> {{ schedule.start_date }} at {{ schedule.start_time|time:"h:i A" }} </p>
+                    <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>End:</strong> {{ schedule.end_date }} at {{ schedule.end_time|time:"h:i A" }}</p>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingTicket">Get ticket</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-3">
+            <div class="col-sm-5 p-2">
+                <h5>Access Type</h5>
+                <div class="card card-body">
+                    <h5 class="d-flex justify-content-between">
+                        Free <span>{{ ticket.price|floatformat:2|intcomma }} TZS</span>
+                    </h5>
+                    <p class="text-danger">Available until {{ schedule.end_date }}</p>
+                </div>
+            </div>
+            <div class="col-sm-7 p-2">
+                <h5>Event description</h5>
+                <div class="my-2">
+                    Rev up your engines for a 300km off-road journey that takes you through the heart of the Usambara Mountains. This three-day expedition is designed for the off-road enthusiast looking for a challenge and an unforgettable experience in the wild terrains of Tanzania.
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking -->
+        <div class="modal fade" id="bookingTicket" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="bookingTicketLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div class="">
+                    <h5 class="modal-title fw-bold" id="bookingTicketLabel">Book ticket</h5>
+                  </div>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary">Book now</button>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
