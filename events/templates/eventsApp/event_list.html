@@ -23,12 +23,14 @@
         <tbody>
             {% for e in events %}
             <tr>
-                <td class="d-flex">
-                    <img class="poster" src="{{ e.event.poster.url }}">
-                    <span class="ms-2">
-                        <a class="fw-bolder" href="{% url 'event' event_id=e.event.id %}">{{ e.event.name }}</a>
-                        <p>{{ e.event.category }}</p>
-                    </span>
+                <td>
+                    <div class="d-flex">
+                        <img class="poster" src="{{ e.event.poster.url }}">
+                        <span class="ms-2">
+                            <a class="fw-bolder" href="{% url 'event' event_id=e.event.id %}">{{ e.event.name }}</a>
+                            <p>{{ e.event.category }}</p>
+                        </span>
+                    </div>
                 </td>
                 <td>
                     <p><strong>Start: </strong>{{ e.start_date }} {{ e.start_time|time:"h:i A" }}</p>
