@@ -1,6 +1,19 @@
 from time import timezone
 from django import forms
-from .models import EventCategory, Events, Schedule, Ticket, TicketType
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from .models import Attendee, EventCategory, Events, OrderTicket, Schedule, Ticket
+
+class CreateUserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username','email','password1']
+        labels = {
+            'username':'Username:',
+            'email':'Email address:',
+            'password1':'Password:',
+        }
+        
 
 
 class CategoryForm(forms.ModelForm):
@@ -13,19 +26,6 @@ class CategoryForm(forms.ModelForm):
         }
         widgets = {
             'name': forms.TextInput(attrs={'placeholder':'e.g. Event category', 'class':'form-control my-2'}),
-            'desc': forms.Textarea(attrs={'class':'form-control my-2', 'rows':'8'}),
-        }
-
-class TicketTypeForm(forms.ModelForm):
-    class Meta:
-        model = TicketType
-        fields = '__all__'
-        labels = {
-            'name':'Ticket type',
-            'desc':'Description',
-        }
-        widgets = {
-            'name': forms.TextInput(attrs={'placeholder':'e.g. Ticket type', 'class':'form-control my-2'}),
             'desc': forms.Textarea(attrs={'class':'form-control my-2', 'rows':'8'}),
         }
 
@@ -68,9 +68,9 @@ class ScheduleForm(forms.ModelForm):
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ('type','price','ticket_qty','desc')
+        fields = ('name','price','ticket_qty','desc')
         labels = {
-            'type':'Ticket',
+            'name':'Name',
             'price':'Price (TZS)',
             'ticket_qty':'Ticket quantity',
             'desc':'Description',
@@ -80,4 +80,26 @@ class TicketForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class':'form-control my-2'}),
             'ticket_qty': forms.NumberInput(attrs={'class':'form-control my-2'} ),
             'desc': forms.Textarea(attrs={'class':'form-control my-2', 'rows':'8'}),
+        }
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = OrderTicket
+        fields = '__all__'
+        labels = { 'ticket':'Ticket: '}
+        widgets = { 'ticket': forms.RadioSelect(attrs={'class':'form-select my-2'} ) }
+
+class AttendeeForm(forms.ModelForm):
+    class Meta:
+        model = Attendee
+        fields = ('name','phone','email')
+        labels = {
+            'name':'Name',
+            'phone':'Phone',
+            'email':'Email',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control my-2'} ),
+            'phone': forms.TextInput(attrs={'class':'form-control my-2'}),
+            'email': forms.EmailInput(attrs={'class':'form-control my-2'} ),
         }

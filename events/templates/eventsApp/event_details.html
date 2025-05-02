@@ -24,13 +24,15 @@
 
         <div class="row m-3">
             <div class="col-sm-5 p-2">
-                <h5>Access Type</h5>
-                <div class="card card-body">
-                    <h5 class="d-flex justify-content-between">
-                        Free <span>{{ ticket.price|floatformat:2|intcomma }} TZS</span>
-                    </h5>
-                    <p class="text-danger">Available until {{ schedule.end_date }}</p>
-                </div>
+                <h5>Ticket Type</h5>
+                {% for ticket in tickets %}
+                    <div class="card card-body my-2 p-2">
+                        <h5 class="d-flex justify-content-between">
+                            {{ ticket.name }} <span>{{ ticket.price|floatformat:2|intcomma }} TZS</span>
+                        </h5>
+                        <p class="text-danger">Available until {{ schedule.end_date }}</p>
+                    </div>
+                {% endfor %}
             </div>
             <div class="col-sm-7 p-2">
                 <h5>Event description</h5>
@@ -43,20 +45,36 @@
         <!-- Booking -->
         <div class="modal fade" id="bookingTicket" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="bookingTicketLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <div class="">
-                    <h5 class="modal-title fw-bold" id="bookingTicketLabel">Book ticket</h5>
-                  </div>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <form action="" method="post">
+                    {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <div class="">
+                        <h5 class="modal-title fw-bold" id="bookingTicketLabel">Book ticket</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <p>Ticket: ( Choose ticket type )</p>
+                            {% for ticket in tickets %}
+                            <input type="radio" name="ticket" id="ticket_{{ ticket.id }}" class="btn-check" value="{{ ticket.id }}">
+                            <label for="ticket_{{ ticket.id }}"
+                            class="col-sm-3 rounded-pill shadow-none text-center py-1 btn btn-outline-secondary"
+                            style="border: 2px dotted #2981B3">
+                            {{ ticket.name }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group my-2">
+                            {{ attendee_form.as_p }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" value="Book now">
+                    </div>
                 </div>
-                <div class="modal-body">
-                  ...
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary">Book now</button>
-                </div>
-              </div>
+                </form>
             </div>
         </div>
     </div>

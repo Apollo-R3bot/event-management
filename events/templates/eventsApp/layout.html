@@ -25,18 +25,25 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link" href="{% url 'home' %}">Browse Events</a>
                     </li>
+                    {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'events_list' %}">Events</a>
+                        <a class="nav-link" href="{% url 'events_list' %}">My Events</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'create_category' %}">Settings</a>
                     </li>
+                    {% endif %}
                 </ul>
                 <div class="d-flex">
-                    <a class="btn btn-outline-dark text-capitalize mx-2" href="">Login</a>
-                    <a class="btn btn-dark text-capitalize mx-2" href="">Sign up</a>
+                    {% if user.is_authenticated %}
+                        <span>{{ request.user.group }}</span>
+                        <a class="btn btn-dark text-capitalize mx-2" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a class="btn btn-outline-dark text-capitalize mx-2" href="{% url 'login' %}">Login</a>
+                        <a class="btn btn-dark text-capitalize mx-2" href="{% url 'register' %}">Sign up</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

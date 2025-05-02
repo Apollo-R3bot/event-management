@@ -1,0 +1,36 @@
+{% extends "eventsApp/layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+    <div class="row my-5 d-flex justify-content-center">
+        <div class="col-sm-4 card">
+            <div class="card-header">
+                <h4 class="card-title text-dark">Register</h4>
+            </div>
+            <div class="card-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {% for field in register_form %}
+                        {{ field.label }}
+                        {{ field }}
+                    {% endfor %}
+                    <input type="submit" class="btn btn-primary" value="Register">
+                    <div class="form-row my-2">
+                        Already have an account.? <a href="{% url 'login' %}">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let form_fields = document.getElementsByTagName('input')
+
+        for(let field in form_fields){
+            form_fields[field].className += ' form-control my-2'
+        }
+    </script>
+{% endblock %}

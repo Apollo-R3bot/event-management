@@ -10,13 +10,6 @@ class EventCategory(models.Model):
     def __str__(self):
         return self.name
 
-class TicketType(models.Model):
-    name = models.CharField(max_length=100)
-    desc = models.CharField(max_length=255, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name
     
 #Events
 class Events(models.Model):
@@ -47,7 +40,7 @@ class Schedule(models.Model):
         return self.event
     
 class Ticket(models.Model):
-    type = models.ForeignKey(TicketType, on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=100, default="Free")
     event = models.ForeignKey(Events, on_delete=models.CASCADE)
     price = models.FloatField(default=0.0)
     ticket_qty = models.IntegerField(default=1)
@@ -55,12 +48,12 @@ class Ticket(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.type
+        return self.name
 
 
 class OrderTicket(models.Model):
     event = models.ForeignKey(Events, on_delete=models.CASCADE)
-    qty = models.IntegerField(default=1)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
