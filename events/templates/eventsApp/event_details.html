@@ -15,8 +15,8 @@ Home
             <div class="card-body">
                 <h5 class="text-dark fw-bold">{{ event.name }}</h5>
                 <p class="d-flex align-items-center"><i class='bx bx-map'></i>{{ event.location }}</p>
-                <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>Start:</strong> {{ schedule.start_date }} at {{ schedule.start_time|time:"h:i A" }} </p>
-                <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>End:</strong> {{ schedule.end_date }} at {{ schedule.end_time|time:"h:i A" }}</p>
+                <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>Start:</strong> {{schedule.start_date }} at {{ schedule.start_time|time:"h:i A" }} </p>
+                <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>End:</strong> {{schedule.end_date }} at {{ schedule.end_time|time:"h:i A" }}</p>
             </div>
         </div>
     </div>

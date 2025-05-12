@@ -1,0 +1,48 @@
+{% extends "eventsApp/settings/layout.html" %}
+
+{% block title %}
+Event
+{% endblock %}
+
+{% block account %}
+<!-- <p class="lead">Event create / update</p> -->
+
+<form method="post" class="w-100" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <!-- Ticket -->
+  <div class="card mb-2">
+    <div class="card-header">My Booking</div>
+    <div class="card-body my-0">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <td>Event</td>
+            <td>Customer</td>
+            <td>Ticket</td>
+            <td>Actions</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in orders %}
+          <tr>
+            <td>{{ a.event.name }}</td>
+            <td>{{ a.name }}</td>
+            <td>{{ a.ticket.name }}</td>
+            <td class="d-flex">
+              <a href="" class="btn btn-sm btn-outline-warning"><i class='bx bx-pencil text-warning me-1'></i>update</a>
+              <form action="{% url 'ticket_delete' a.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-danger"><i class='bx bx-trash me-1'></i>delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</form>
+
+{% endblock %}

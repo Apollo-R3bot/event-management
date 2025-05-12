@@ -86,14 +86,14 @@ class TicketForm(forms.ModelForm):
 class BookTicketForm(forms.ModelForm):
     class Meta:
         model = OrderTicket
-        fields = ('ticket','name','phone')
+        fields = ('name','phone','email')
         labels = { 
-            'ticket':'Ticket: ',
             'name':'Name',
             'phone':'Phone',
+            'email':'Email address (optional)',
         }
         widgets = { 
-            'ticket': forms.Select(attrs={'class':'form-select my-2'}), 
             'name': forms.TextInput(attrs={'class':'form-control my-2'} ),
             'phone': forms.TextInput(attrs={'class':'form-control my-2'}),
+            'email': forms.EmailInput(attrs={'class':'form-control my-2'}),
         }

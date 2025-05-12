@@ -1,12 +1,12 @@
 {% extends "eventsApp/settings/layout.html" %}
 
 {% block title %}
-    Settings | Category
+    Category
 {% endblock %}
 
-{% block settings %}
+{% block account %}
 <div class="row m-2">
-        <p class="col lead">Select category</p>
+        <p class="col lead">Category</p>
         <div class="col d-flex justify-content-end"><button class="btn btn-sm btn-primary btn-block"><a href="{% url 'create_category' %}" class="text-white">Add category</a></button></div>
     </div>
     <hr>
@@ -31,19 +31,16 @@
 
             <!-- Delete -->
             <div class="modal fade" id="deleteTemplate_{{ cat.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">EMID says.</h5>
-                    </div>
                     <div class="modal-body">
-                      <p class="text-danger text-center">Do you want to delete template..?</p>
+                      <p class="text-danger text-center">Do you want to delete category..?</p>
                     </div>
                     <div class="modal-footer d-flex justify-content-between py-1">
                         <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-                        <form action="" method="post">
-                        {% csrf_token %}
-                          <button type="submit" class="btn btn-primary btn-sm">YES</button>
+                        <form action="{% url 'delete_category' cat.id %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-primary btn-sm">Delete</button>
                         </form>
                     </div>
                   </div>

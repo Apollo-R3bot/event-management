@@ -1,48 +1,73 @@
 {% extends "eventsApp/settings/layout.html" %}
 
 {% block title %}
-    Events
+Events
 {% endblock %}
 
 {% block account %}
-    <div class="row mb-2">
-        <p class="col lead">Events</p>
-        <div class="col d-flex justify-content-end"><button class="btn btn-sm btn-primary btn-block"><a href="{% url 'create_event' %}" class="text-white">Create event</a></button></div>
-    </div>
-    <hr>
-    <table class="table table-hover table-striped display" id="employeeTable" style="width:100%">
-        <thead>
-            <tr>
-                <th>Event</th>
-                <th>Schedule</th>
-                <th>Attendee</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for e in events %}
-            <tr>
-                <td>
-                    <div class="d-flex">
-                        <img class="poster" src="{{ e.event.poster.url }}">
-                        <span class="ms-2">
-                            <a class="fw-bolder" href="{% url 'update_event' event_id=e.event.id %}">{{ e.event.name }}</a>
-                            <p>{{ e.event.category }}</p>
-                        </span>
+<div class="row mb-2">
+    <p class="col lead">Events</p>
+    <div class="col d-flex justify-content-end"><button class="btn btn-sm btn-primary btn-block"><a
+                href="{% url 'create_event' %}" class="text-white">Create event</a></button></div>
+</div>
+<hr>
+<table class="table table-hover table-striped display" id="employeeTable" style="width:100%">
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Schedule</th>
+            <th>Attendee</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in events %}
+        <tr>
+            <td>
+                <div class="d-flex">
+                    <img class="poster" src="{{ e.event.poster.url }}">
+                    <span class="ms-2">
+                        <a class="fw-bolder" href="{% url 'update_event' event_id=e.event.id %}">{{ e.event.name }}</a>
+                        <p>{{ e.event.category }}</p>
+                    </span>
+                </div>
+            </td>
+            <td>
+                <p><strong>Start: </strong>{{ e.start_date }} {{ e.start_time|time:"h:i A" }}</p>
+                <p><strong>End: </strong>{{ e.end_date }} {{ e.end_time|time:"h:i A" }}</p>
+            </td>
+            <td>
+                <p>{{ e.event.status }}</p>
+            </td>
+            <td>
+                <a href="{% url 'update_event' event_id=e.event.id %}" class="btn btn-sm btn-outline-warning"><i
+                        class='bx bx-pencil text-warning me-1'></i>Edit</a>
+                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteEvent_{{ e.event.id }}"><i
+                        class='bx bx-trash text-danger me-1'></i>Delete</button>
+            </td>
+        </tr>
+
+        <!-- Delete -->
+        <div class="modal fade" id="deleteEvent_{{ e.event.id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p class="text-danger text-center">Do you want to delete event..?</p>
                     </div>
-                </td>
-                <td>
-                    <p><strong>Start: </strong>{{ e.start_date }} {{ e.start_time|time:"h:i A" }}</p>
-                    <p><strong>End: </strong>{{ e.end_date }} {{ e.end_time|time:"h:i A" }}</p>
-                </td>
-                <td><p>{{ e.event.status }}</p></td>
-                <td>
-                    <a href="{% url 'update_event' event_id=e.event.id %}" class="btn btn-sm btn-outline-warning"><i class='bx bx-pencil text-warning me-1'></i>Edit</a>
-                    <button class="btn btn-sm btn-outline-danger"><i class='bx bx-trash text-danger me-1'></i>Delete</button>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    <div class="modal-footer d-flex justify-content-between py-1">
+                        <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <form action="{% url 'delete_event' e.event.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary btn-sm">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}

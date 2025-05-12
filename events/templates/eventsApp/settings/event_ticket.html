@@ -26,13 +26,17 @@ Event
           </tr>
         </thead>
         <tbody>
-          {% for t in ticket %}
+          {% for t in tickets %}
           <tr>
             <td>{{ t.name }}</td>
             <td>{{ t.price }}</td>
             <td>{{ t.ticket_qty }}</td>
-            <td>
+            <td class="d-flex">
               <a href="" class="btn btn-sm btn-outline-warning"><i class='bx bx-pencil text-warning me-1'></i>update</a>
+              <form action="{% url 'ticket_delete' t.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-danger"><i class='bx bx-trash me-1'></i>delete</button>
+              </form>
             </td>
           </tr>
           {% endfor %}
@@ -40,12 +44,6 @@ Event
       </table>
 
     </div>
-  </div>
-
-
-  <!-- Confirmation -->
-  <div class="d-flex justify-content-start">
-    <button class="btn btn-primary m-2" type="submit">Submit</button>
   </div>
 </form>
 

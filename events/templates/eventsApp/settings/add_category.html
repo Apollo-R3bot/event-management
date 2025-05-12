@@ -1,14 +1,14 @@
 {% extends "eventsApp/settings/layout.html" %}
 
 {% block title %}
-    Settings | Templates
+    Category
 {% endblock %}
 
-{% block settings %}
+{% block account %}
     <div class="row p-2">
-        <p class="col lead">Add / update templates</p>
+        <p class="col lead">Add / update category</p>
         <hr>
-        <form method="post">
+        <form method="post" class="card">
             {% csrf_token %}
             {{category_form}}
             <button type="submit" class="btn btn-primary my-2">Save</button>

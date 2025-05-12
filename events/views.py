@@ -81,6 +81,17 @@ def category_list(request):
     categories = EventCategory.objects.all()
     return render(request, 'eventsApp/settings/categories_list.html', {'categories':categories})
 
+# Delete category
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Admin','Organizer'])
+def delete_category(request, cat_id):
+    category = get_object_or_404(EventCategory, pk=cat_id)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('category_list')
+    return render(request, 'eventsApp/settings/category_list.html')
+
+
 # List Events
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Admin','Organizer'])
@@ -132,32 +143,41 @@ def update_ticket(request, event_id=None):
 @allowed_users(allowed_roles=['Admin','Organizer'])
 def ticket_list(request, event_id):
     ticket = Ticket.objects.filter(event=event_id)
+    event = Events.objects.get(id=event_id)
 
     form = TicketForm()
     if request.method == 'POST':
         form = TicketForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('ticket_list')
+            ticket = form.save(commit=False)
+            ticket.event = event 
+            ticket.save()
+            return redirect('ticket_list', event_id)
     return render(request, 'eventsApp/settings/event_ticket.html', {'ticket_form':form, 'tickets':ticket})
 
+# DELETE Ticket Type
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Admin','Organizer'])
+def delete_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    if request.method == 'POST':
+        ticket.delete()
+        return redirect('ticket_list', ticket.event.id)
+    return render(request, 'eventsApp/settings/event_ticket.html', {'tickets':ticket})
 
 # Update Event
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Admin','Organizer'])
 def update_event(request, event_id=None):
-    
     if event_id:
         instance = get_object_or_404(Events, pk=event_id)     
         schedule_instance = Schedule.objects.get(event=instance.id)
-        ticket = Ticket.objects.filter(event=event_id)
     else:
         instance = None
 
     if request.method == 'POST':
         event_form = EventForm(request.POST, request.FILES, instance=instance)
         schedule_form = ScheduleForm(request.POST, instance=schedule_instance)
-        # ticket_form = TicketForm(request.POST, instance=ticket)
 
         if event_form.is_valid() and schedule_form.is_valid():
             event = event_form.save()
@@ -170,9 +190,18 @@ def update_event(request, event_id=None):
         schedule_form = ScheduleForm(instance=schedule_instance)
         ticket_form = TicketForm()
 
-    context = {'event_form':event_form, 'schedule_form':schedule_form, 'ticket_form':ticket_form, 'ticket':ticket, 'event':event_id}
+    context = {'event_form':event_form, 'schedule_form':schedule_form, 'event':event_id}
     return render(request, 'eventsApp/settings/event_update.html', context)
 
+# DELETE Event
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Admin','Organizer'])
+def delete_event(request, event_id):
+    event = get_object_or_404(Events, pk=event_id)
+    if request.method == 'POST':
+        event.delete()
+        return redirect('events_list')
+    return render(request, 'eventsApp/settings/event_list.html')
 
 # Bookig Ticket
 # Create Ticket (By adding Attendee)
@@ -182,7 +211,6 @@ def event_details_and_create_ticket(request, event_id):
     ticket = Ticket.objects.filter(event=event_id)
 
     form = BookTicketForm()
-
     if request.method == 'POST':
         if request.user.is_authenticated:
             ticket_type = request.POST.get('ticket')
@@ -193,13 +221,29 @@ def event_details_and_create_ticket(request, event_id):
                 user = User.objects.get(id=user_id)
 
                 instance = form.save(commit=False)
-                instance.event=event
-                instance.event=event
-                instance.user=user
+                instance.event = event
+                instance.ticket = order_ticket
+                instance.user = user
 
                 instance.save()
-                return redirect('events_list')
+                return redirect('event', event_id)
         else:
             return redirect('login')
     return render(request, 'eventsApp/event_details.html', {'event':event, 'schedule':schedule, 'tickets':ticket, 'bock_ticket_form':form})
 
+def attendee_list(request, event_id):
+    attendee = OrderTicket.objects.filter(event=event_id)
+    event = Events.objects.get(id=event_id)
+    return render(request, 'eventsApp/settings/event_order.html', {'attendees':attendee})
+
+def update_attendee(request):
+    return render(request)
+
+def delete_attendee(request):
+    return render(request)
+
+# Booking
+def booking_list(request):
+    order = OrderTicket.objects.all().select_related('event','ticket')
+    # event = Events.objects.get(id=event_id)
+    return render(request, 'eventsApp/settings/event_order.html', {'orders':order})
