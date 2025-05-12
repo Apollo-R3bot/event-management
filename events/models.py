@@ -52,20 +52,13 @@ class Ticket(models.Model):
 
 
 class OrderTicket(models.Model):
-    event = models.ForeignKey(Events, on_delete=models.CASCADE)
+    event = models.ForeignKey(Events, on_delete=models.CASCADE, null=True)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=100, null=True)
+    phone = models.CharField(max_length=15, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.event
 
-class Attendee(models.Model):
-    name = models.CharField(max_length=100)
-    phone = models.CharField(max_length=15)
-    email = models.EmailField(max_length=150, null=True, blank=True)
-    order = models.ForeignKey(OrderTicket, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.name

@@ -1,11 +1,11 @@
-{% extends "eventsApp/layout.html" %}
+{% extends "eventsApp/settings/layout.html" %}
 
 {% block title %}
-    Create Event
+    Event
 {% endblock %}
 
-{% block content %}
-    <p class="lead">Create event</p>
+{% block account %}
+    <p class="lead">Event create / update</p>
     <div class="card rounded p-2">
         <div class="stepper" id="stepper">
             <div class="steps-container">
@@ -26,12 +26,6 @@
                   <div class="step-title">
                     <span class="step-number">03</span>
                     <div class="step-text">Ticket</div>
-                  </div>
-                </div>
-                <div class="step text-primary" icon="fa fa-check" id="4">
-                  <div class="step-title">
-                    <span class="step-number">04</span>
-                    <div class="step-text">Confirmation</div>
                   </div>
                 </div>
               </div>
@@ -84,19 +78,7 @@
                     </div>
                     <button class="btn btn-outline-primary my-3 float-start" type="button"
                     onclick="stepper.navigate('2')">Previous</button>
-                    <button class="btn btn-outline-primary my-3 float-end" type="button"
-                    onclick="stepper.navigate('4')">Next</button>
-                </div>
-
-
-                <!-- Confirmation -->
-                <div class="stepper-content fade-in" stepper-label="4">
-                  <div class="row my-0">
-                    
-                  </div>
-                  <button class="btn btn-outline-primary my-3 float-start" type="button"
-                    onclick="stepper.navigate('3')">Previous</button>
-                  <button class="btn btn-outline-primary my-3 float-end" type="submit">Submit</button>
+                    <button class="btn btn-primary my-3 float-end" type="submit">Submit</button>
                 </div>
               </form>
             </div>

@@ -1,81 +1,79 @@
 {% extends "eventsApp/layout.html" %}
 
 {% block title %}
-    Home
+Home
 {% endblock %}
 
 {% block content %}
 {% load humanize %}
-    <div class="container my-3 border shadow">
-        <div class="row border-bottom">
-            <div class="col-sm-5 border-top-0 p-0">
-                <img src="{{ event.poster.url }}" alt="Poster" style="width: 100%;">
-            </div>
-            <div class="col-sm-7 d-flex align-items-center">
-                <div class="card-body">
-                    <h5 class="text-dark fw-bold">{{ event.name }}</h5>
-                    <p class="d-flex align-items-center"><i class='bx bx-map'></i>{{ event.location }}</p>
-                    <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>Start:</strong> {{ schedule.start_date }} at {{ schedule.start_time|time:"h:i A" }} </p>
-                    <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>End:</strong> {{ schedule.end_date }} at {{ schedule.end_time|time:"h:i A" }}</p>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookingTicket">Get ticket</button>
-                </div>
-            </div>
+<div class="container my-3 border shadow">
+    <div class="row border-bottom">
+        <div class="col-sm-5 border-top-0 p-0">
+            <img src="{{ event.poster.url }}" alt="Poster" style="width: 100%;">
         </div>
-
-        <div class="row m-3">
-            <div class="col-sm-5 p-2">
-                <h5>Ticket Type</h5>
-                {% for ticket in tickets %}
-                    <div class="card card-body my-2 p-2">
-                        <h5 class="d-flex justify-content-between">
-                            {{ ticket.name }} <span>{{ ticket.price|floatformat:2|intcomma }} TZS</span>
-                        </h5>
-                        <p class="text-danger">Available until {{ schedule.end_date }}</p>
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="col-sm-7 p-2">
-                <h5>Event description</h5>
-                <div class="my-2">
-                    Rev up your engines for a 300km off-road journey that takes you through the heart of the Usambara Mountains. This three-day expedition is designed for the off-road enthusiast looking for a challenge and an unforgettable experience in the wild terrains of Tanzania.
-                </div>
-            </div>
-        </div>
-
-        <!-- Booking -->
-        <div class="modal fade" id="bookingTicket" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="bookingTicketLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <form action="" method="post">
-                    {% csrf_token %}
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <div class="">
-                        <h5 class="modal-title fw-bold" id="bookingTicketLabel">Book ticket</h5>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <p>Ticket: ( Choose ticket type )</p>
-                            {% for ticket in tickets %}
-                            <input type="radio" name="ticket" id="ticket_{{ ticket.id }}" class="btn-check" value="{{ ticket.id }}">
-                            <label for="ticket_{{ ticket.id }}"
-                            class="col-sm-3 rounded-pill shadow-none text-center py-1 btn btn-outline-secondary"
-                            style="border: 2px dotted #2981B3">
-                            {{ ticket.name }}
-                            </label>
-                            {% endfor %}
-                        </div>
-                        <div class="form-group my-2">
-                            {{ attendee_form.as_p }}
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="submit" class="btn btn-primary" value="Book now">
-                    </div>
-                </div>
-                </form>
+        <div class="col-sm-7 d-flex align-items-center">
+            <div class="card-body">
+                <h5 class="text-dark fw-bold">{{ event.name }}</h5>
+                <p class="d-flex align-items-center"><i class='bx bx-map'></i>{{ event.location }}</p>
+                <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>Start:</strong> {{ schedule.start_date }} at {{ schedule.start_time|time:"h:i A" }} </p>
+                <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>End:</strong> {{ schedule.end_date }} at {{ schedule.end_time|time:"h:i A" }}</p>
             </div>
         </div>
     </div>
+
+    <div class="row m-3">
+        <div class="col-sm-5 p-2">
+            <h5>Ticket Type</h5>
+            {% for ticket in tickets %}
+            <div class="card card-body my-2 p-2">
+                <h6 class="d-flex justify-content-between">
+                    {{ ticket.name }} <span>{{ ticket.price|floatformat:2|intcomma }} TZS</span>
+                </h6>
+                <p class="text-danger">Available until {{ schedule.end_date }}</p>
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#bookingTicket_{{ ticket.id }}">Get ticket</button>
+            </div>
+
+            <!-- Booking -->
+            <div class="modal fade" id="bookingTicket_{{ ticket.id }}" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="bookingTicketLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="">
+                                    <h5 class="modal-title fw-bold" id="bookingTicketLabel">Book {{ ticket.name }}
+                                        ticket</h5>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group my-2">
+                                    <input type="hidden" name="ticket" value="{{ ticket.id }}">
+                                    {{ bock_ticket_form.as_p }}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary" value="Book now">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-sm-7 p-2">
+            <h5>Event description</h5>
+            <div class="my-2">
+                Rev up your engines for a 300km off-road journey that takes you through the heart of the Usambara
+                Mountains. This three-day expedition is designed for the off-road enthusiast looking for a challenge and
+                an unforgettable experience in the wild terrains of Tanzania.
+            </div>
+        </div>
+    </div>
+
+
+</div>
 {% endblock %}

@@ -7,18 +7,27 @@
 {% block content %}
     <div class="row">
         <div class="col-md-3 border p-0 ">
-          <p class="lead m-0 p-2 text-white fw-bold text-center" style="background: #2981B3">Settings</p>
+          <p class="lead m-0 p-2 text-white fw-bold text-center" style="background: #2981B3">Event Setup</p>
             <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'events_list' %}">My Events</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">My Order </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Attendees</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'ticket_list' event_id=event %}">Tickets</a>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'category_list' %}">Category</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="">Ticket</a>
-                </li>
               </ul>
         </div>
-        <div class="col-md-9 p-3">
-            {% block settings %}{% endblock %}
+        <div class="col-md-9 px-3">
+            {% block account %}{% endblock %}
         </div>
     </div>
 {% endblock %}

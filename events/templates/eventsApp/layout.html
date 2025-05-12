@@ -31,14 +31,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'events_list' %}">My Events</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'create_category' %}">Settings</a>
-                    </li>
                     {% endif %}
                 </ul>
                 <div class="d-flex">
                     {% if user.is_authenticated %}
-                        <span>{{ request.user.group }}</span>
+                        <span>{{ request.user }}</span>
                         <a class="btn btn-dark text-capitalize mx-2" href="{% url 'logout' %}">Logout</a>
                     {% else %}
                         <a class="btn btn-outline-dark text-capitalize mx-2" href="{% url 'login' %}">Login</a>
