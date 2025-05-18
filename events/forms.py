@@ -15,7 +15,6 @@ class CreateUserForm(UserCreationForm):
         }
         
 
-
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = EventCategory
