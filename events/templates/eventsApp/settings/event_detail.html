@@ -1,0 +1,56 @@
+{% extends "eventsApp/settings/layout.html" %}
+
+{% block title %}
+Events
+{% endblock %}
+
+{% block account %}
+<div class="row my-2">
+    <div class="col shadow-sm border rounded p-3 d-flex justify-content-between">
+        <div class="d-flex">
+            <img class="poster" src="{{ event.poster.url }}">
+            <span class="ms-2">
+                <h3>{{ event.event_name }}</h3>
+                <p>{{ event.category }}</p>
+            </span>
+        </div>
+        <div class="schedule">
+            <p><strong>Start: </strong>{{ schedule.start_date }} {{ schedule.start_time|time:"h:i A" }}</p>
+            <p><strong>End: </strong>{{ schedule.end_date }} {{ schedule.end_time|time:"h:i A" }}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <p class="col lead">Attendees</p>
+</div>
+<hr>
+<table class="table table-hover table-striped display" id="employeeTable" style="width:100%">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Ticket</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in attendee %}
+        <tr>
+            <td>
+                {{ a.row_number }}
+            </td>
+            <td>
+                {{ a.name }}
+            </td>
+            <td>
+                <p>{{ a.phone }}</p>
+            </td>
+            <td>
+                <p>{{ a.ticket.name }}</p>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

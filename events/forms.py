@@ -31,17 +31,17 @@ class CategoryForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Events
-        fields = ('category','name','location','desc','poster')
+        fields = ('category','event_name','location','desc','poster')
         labels = {
             'category':'Ticket type',
-            'name':'Event name',
+            'event_name':'Event name',
             'location':'Address',
             'desc':'Description',
             'poster':'Event Poster image',
         }
         widgets = {
             'category': forms.Select(attrs={'class':'form-select my-2'}),
-            'name': forms.TextInput(attrs={'placeholder':'', 'class':'form-control my-2'}),
+            'event_name': forms.TextInput(attrs={'placeholder':'', 'class':'form-control my-2'}),
             'location': forms.TextInput(attrs={'placeholder':'eg. Arusha Confrence Center', 'class':'form-control my-2'}),
             'desc': forms.Textarea(attrs={'class':'form-control my-2', 'rows':'5'}),
             'poster': forms.FileInput(attrs={'class':'form-control my-2'})

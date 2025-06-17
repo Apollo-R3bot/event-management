@@ -13,9 +13,6 @@ Event
   <li class="nav-item">
     <a class="nav-link" href="{% url 'ticket_list' event_id=event %}">Tickets</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'ticket_list' event_id=event %}">Attendee</a>
-  </li>
 </ul>
 <form method="post" class="w-100" enctype="multipart/form-data">
   {% csrf_token %}

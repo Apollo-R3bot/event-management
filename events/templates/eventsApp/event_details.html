@@ -9,7 +9,7 @@ Home
 <div class="container my-3 border shadow">
     <div class="row border-bottom">
         <div class="col-sm-5 border-top-0 p-0">
-            <img src="{{ event.poster.url }}" alt="Poster" style="width: 100%;">
+            <img src="{{ event.poster.url }}" alt="Poster" style="width: 100%;height: 350px">
         </div>
         <div class="col-sm-7 d-flex align-items-center">
             <div class="card-body">
@@ -43,8 +43,7 @@ Home
                         <div class="modal-content">
                             <div class="modal-header">
                                 <div class="">
-                                    <h5 class="modal-title fw-bold" id="bookingTicketLabel">Book {{ ticket.name }}
-                                        ticket</h5>
+                                    <h5 class="modal-title fw-bold" id="bookingTicketLabel">Book ticket ( {{ ticket.name }} )</h5>
                                 </div>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -67,9 +66,7 @@ Home
         <div class="col-sm-7 p-2">
             <h5>Event description</h5>
             <div class="my-2">
-                Rev up your engines for a 300km off-road journey that takes you through the heart of the Usambara
-                Mountains. This three-day expedition is designed for the off-road enthusiast looking for a challenge and
-                an unforgettable experience in the wild terrains of Tanzania.
+                {{ event.decs }}
             </div>
         </div>
     </div>

@@ -102,6 +102,9 @@ main{
     padding: 0;
     /* border-radius: 1.5em; */
 }
+main .card img{
+    height: 30px;
+}
 main .card .schedule{
     position: absolute;
     top: 10px;

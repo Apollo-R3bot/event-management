@@ -9,19 +9,21 @@
         <div class="col-md-3 border p-0 " style="height: 100vh;">
           <p class="lead m-0 p-2 text-white fw-bold text-center" style="background: #2981B3">Event Setup</p>
             <ul class="nav flex-column">
+              {% if user.is_authenticated %}
+                {% if user.groups.all.0.name == "Organizer" %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'events_list' %}">My Events</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'booking_list' %}">My Booking </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="">Tickets</a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link" href="{% url 'category_list' %}">Category</a>
                 </li>
-              </ul>
+                {% elif user.groups.all.0.name == "Customer"  %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'booking_list' %}">My Booking </a>
+                </li>
+                {% endif %}
+              {% endif %}
+            </ul>
         </div>
         <div class="col-md-9 px-3">
             {% block account %}{% endblock %}

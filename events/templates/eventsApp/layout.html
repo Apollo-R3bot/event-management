@@ -28,14 +28,19 @@
                         <a class="nav-link" href="{% url 'home' %}">Browse Events</a>
                     </li>
                     {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'events_list' %}">My Events</a>
-                    </li>
+                        {% if user.groups.all.0.name == "Organizer" %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'events_list' %}">My Events</a>
+                            </li>
+                        {% elif user.groups.all.0.name == "Customer" %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'booking_list' %}">My Booking</a>
+                            </li>
+                        {% endif %}
                     {% endif %}
                 </ul>
                 <div class="d-flex">
                     {% if user.is_authenticated %}
-                        <span>{{ request.user }}</span>
                         <a class="btn btn-dark text-capitalize mx-2" href="{% url 'logout' %}">Logout</a>
                     {% else %}
                         <a class="btn btn-outline-dark text-capitalize mx-2" href="{% url 'login' %}">Login</a>

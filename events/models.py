@@ -13,7 +13,8 @@ class EventCategory(models.Model):
     
 #Events
 class Events(models.Model):
-    name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    event_name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     category = models.ForeignKey(EventCategory, on_delete=models.SET_NULL, null=True, blank=True)
     desc = models.CharField(max_length=255, null=True, blank=True)
@@ -57,7 +58,7 @@ class OrderTicket(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=15, null=True)
-    email = models.EmailField(max_length=100, null=True)
+    email = models.EmailField(max_length=100, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -58,7 +58,7 @@ def logoutPage(request):
     
 # Home Page
 def home_view(request):
-    events = Events.objects.all()
+    events = Schedule.objects.select_related('event')
     return render(request, 'eventsApp/home.html', {'events':events})
 
 #Create Category
@@ -96,8 +96,22 @@ def delete_category(request, cat_id):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Admin','Organizer'])
 def events_list(request):
-    events = Schedule.objects.all().select_related('event')
-    return render(request, 'eventsApp/settings/event_list.html', {'events':events})
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        events = Schedule.objects.select_related('event').filter(event__user=user_id)
+        return render(request, 'eventsApp/settings/event_list.html', {'events':events})
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Admin','Organizer'])
+def events_detail(request, event_id):
+    if request.user.is_authenticated:
+        event = Events.objects.get(id=event_id)
+        schedule = Schedule.objects.get(event=event_id)
+        attendee = OrderTicket.objects.filter(event=event_id).select_related('ticket')
+        for i, a in enumerate(attendee):
+           a.row_number = i+1
+        return render(request, 'eventsApp/settings/event_detail.html', {'event':event, 'schedule':schedule, 'attendee':attendee})
+
 
 # Create Event
 @login_required(login_url='login')
@@ -244,6 +258,9 @@ def delete_attendee(request):
 
 # Booking
 def booking_list(request):
-    order = OrderTicket.objects.all().select_related('event','ticket')
-    # event = Events.objects.get(id=event_id)
-    return render(request, 'eventsApp/settings/event_order.html', {'orders':order})
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        order = OrderTicket.objects.filter(user=user_id).select_related('event','ticket')
+        for i, a in enumerate(order):
+           a.row_number = i+1
+        return render(request, 'eventsApp/settings/event_order.html', {'orders':order})
