@@ -13,7 +13,7 @@ Home
         </div>
         <div class="col-sm-7 d-flex align-items-center">
             <div class="card-body">
-                <h5 class="text-dark fw-bold">{{ event.name }}</h5>
+                <h5 class="text-dark fw-bold">{{ event.event_name }}</h5>
                 <p class="d-flex align-items-center"><i class='bx bx-map'></i>{{ event.location }}</p>
                 <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>Start:</strong> {{schedule.start_date }} at {{ schedule.start_time|time:"h:i A" }} </p>
                 <p class="d-flex align-items-center"><i class='bx bx-time'></i><strong>End:</strong> {{schedule.end_date }} at {{ schedule.end_time|time:"h:i A" }}</p>
@@ -66,7 +66,7 @@ Home
         <div class="col-sm-7 p-2">
             <h5>Event description</h5>
             <div class="my-2">
-                {{ event.decs }}
+                {{ event.desc }}
             </div>
         </div>
     </div>
